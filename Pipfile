@@ -7,6 +7,8 @@ name = "pypi"
 fastapi = "*"
 sqlalchemy = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+pytz = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 flake8 = "*"
