@@ -19,6 +19,10 @@ def create_app():
         allow_headers=["*"],
     )
 
+    from api.routes import competition
+
+    app.include_router(competition.router)
+
     @app.get("/", status_code=status.HTTP_200_OK)
     def read_root() -> dict[str, str]:
         return {"message": "Hello World!"}
