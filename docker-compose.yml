@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  sailingrankingbackend:
+    image: sailingrankingbackend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    environment:
+      - FASTAPI_APP=0.0.0.0
+      - DATABASE_HOSTNAME=sailingranking-postgres
+    ports:
+      - "${FASTAPI_PORT}:${FASTAPI_PORT}"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgis/postgis:13-3.1-alpine
+    container_name: sailingservice-postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: $DATABASE_USERNAME
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+    ports:
+      - "${DATABASE_HOSTNAME}:${DATABASE_PORT}:${DATABASE_PORT}"
