@@ -31,14 +31,17 @@ class Base:
         sa.DateTime(timezone=True),
         nullable=False,
         default=datetime.datetime.now(tz=pytz.utc),
+        server_default=sa.func.now(),
     )
 
     # all data models have an update date
-    created_at = sa.Column(
+    updated_at = sa.Column(
         sa.DateTime(timezone=True),
         nullable=False,
         default=datetime.datetime.now(tz=pytz.utc),
         onupdate=datetime.datetime.now(tz=pytz.utc),
+        server_default=sa.func.now(),
+        server_onupdate=sa.func.now(),
     )
 
     # generate __tablename__ automatically
