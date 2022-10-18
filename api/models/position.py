@@ -15,6 +15,6 @@ class Position(Base):
     # the race object for the finishin position
     race = relationship("Race", back_populates="positions")
     # the competitor id for the finishing position
-    competitor_id = sa.Column(UUID, sa.ForeignKey("competitor.id"))
+    sail_nr = sa.Column(sa.BigInteger, sa.ForeignKey("competitor.sail_nr"))
     # the competitor object for the finishing position
     competitor = relationship("Competitor", back_populates="positions")

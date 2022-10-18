@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from api import config, database, models, routes, schemas
 from api.config import settings
 from api.database import Base, get_db
 
