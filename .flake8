@@ -1,0 +1,34 @@
+[flake8]
+# From https://black.readthedocs.io/en/stable/compatible_configs.html#id3
+max-line-length = 88
+extend-ignore = E203, W503
+
+no-accept-encodings = True
+docstring-convention = numpy
+exclude=data/,templates/,.cache/,.pipenv,alembic/
+
+# https://github.com/girder/girder/blob/master/tests/flake8.cfg
+# Docstring Error Definitions:
+#     W503 - line break before binary operator
+#     D104 - Missing docstring in public package
+#     D200 - One-line docstrings should fit on one line with quotes
+#     D202 - No blank lines allowed after docstring
+#     D203 - 1 blank required before (203) class docstring
+#     D204 - 1 blank required after  (204) class docstring
+#     E203 - whitespace before ':'
+#     E501 - line too long
+ignore =W503,
+        D104,
+        D200,
+        D202,
+        D203,
+        D204,
+        E203,
+        E501,
+
+per-file-ignores=
+        api/models/__init__.py:F401,F403,E402
+        api/routes/__init__.py:F401,F403,E402
+        api/schemas/__init__.py:F401,F403,E402
+        api/services/__init__.py:F401,F403,E402
+        api/__init__.py:F401,F403,E402

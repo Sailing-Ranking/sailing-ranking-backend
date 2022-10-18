@@ -32,3 +32,17 @@ async def update(id: UUID4, db: Session = Depends(get_db)):
 @router.delete("/{id}", status_code=status.HTTP_501_NOT_IMPLEMENTED)
 async def delete(id: UUID4, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_501_NOT_IMPLEMENTED)
+
+
+@router.post(
+    "/{id}/csv", status_code=status.HTTP_501_NOT_IMPLEMENTED, response_model=Any
+)
+async def add_competitors_by_csv(id: UUID4, db: Session = Depends(get_db)):
+    return Response(status_code=status.HTTP_501_NOT_IMPLEMENTED)
+
+
+@router.post(
+    "/{id}/xlsx", status_code=status.HTTP_501_NOT_IMPLEMENTED, response_model=Any
+)
+async def add_competitors_by_xlsx(id: UUID4, db: Session = Depends(get_db)):
+    return Response(status_code=status.HTTP_501_NOT_IMPLEMENTED)

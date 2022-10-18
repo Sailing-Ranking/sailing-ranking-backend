@@ -9,6 +9,7 @@ sqlalchemy = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 pytz = "*"
 psycopg2-binary = "*"
+pandas = "*"
 
 [dev-packages]
 flake8 = "*"

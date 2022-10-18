@@ -46,13 +46,15 @@ class Competitor(Base):
     # competitor country of national team
     country = sa.Column(sa.Enum(Country), nullable=False)
     # competitor sail number
-    sail_nr = sa.Column(sa.BigInteger, nullable=False)
+    sail_nr = sa.Column(sa.BigInteger, nullable=False, index=True)
     # competitor total points in competition
-    total_points = sa.Column(sa.BigInteger, nullable=False, default=0)
+    total_points = sa.Column(
+        sa.BigInteger, nullable=False, default=0, server_default="0"
+    )
     # competitor net points in competition
-    net_points = sa.Column(sa.BigInteger, nullable=False, default=0)
+    net_points = sa.Column(sa.BigInteger, nullable=False, default=0, server_default="0")
     # competitor club
-    club = sa.Column(sa.Enum(Club), nullable=False)
+    club = sa.Column(sa.Enum(Club), nullable=False, index=True)
     # the competition id in which the competitor takes part
     competition_id = sa.Column(UUID, sa.ForeignKey("competition.id"))
     # the competition object in which the competitor takes part
