@@ -1,6 +1,7 @@
 import sqlalchemy as sa
-from api.database import Base
 from sqlalchemy.orm import relationship
+
+from api.database import Base
 
 
 class Competition(Base):

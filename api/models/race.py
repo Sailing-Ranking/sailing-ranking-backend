@@ -1,9 +1,10 @@
 from enum import Enum
 
 import sqlalchemy as sa
-from api.database import Base
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
+from api.database import Base
 
 
 class Race(Base):
