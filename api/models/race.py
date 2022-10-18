@@ -8,7 +8,7 @@ class Race(Base):
     """Representing a race as a database table."""
 
     # the race number
-    race_nr = sa.Column(sa.BigInteger, nullable=False, autoincrement=True, index=True)
+    race_nr = sa.Column(sa.BigInteger, nullable=False, index=True)
     # the finishing positions in the race
     postitions = relationship(
         "Position",

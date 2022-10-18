@@ -46,7 +46,7 @@ class Competitor(Base):
     # competitor country of national team
     country = sa.Column(sa.Enum(Country), nullable=False)
     # competitor sail number
-    sail_nr = sa.Column(sa.BigInteger, nullable=False, index=True)
+    sail_nr = sa.Column(sa.BigInteger, nullable=False, unique=True, index=True)
     # competitor total points in competition
     total_points = sa.Column(
         sa.BigInteger, nullable=False, default=0, server_default="0"
