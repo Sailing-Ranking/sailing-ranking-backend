@@ -28,8 +28,8 @@ router = APIRouter(prefix="/competitions", tags=["Competitions"])
 
 @router.get("/", status_code=status.HTTP_200_OK, response_model=List[CompetitionOut])
 async def read(db: Session = Depends(get_db)):
-    """Handle returning all competiions to the user."""
-    competitions = db.query(Competition).all()
+    """Handle returning all competitions to the user."""
+    competitions: List[Competition] = db.query(Competition).all()
     return competitions
 
 
@@ -40,8 +40,8 @@ def get_boat_types():
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=CompetitionOut)
 async def get_by_id(id: UUID4, db: Session = Depends(get_db)):
-    """Handle returning a competition by id to the user."""
-    competition = db.query(Competition).get(id)
+    """Handle returning one competition by id to the user."""
+    competition: Competition = db.query(Competition).get(id)
 
     if not competition:
         raise HTTPException(
@@ -54,7 +54,7 @@ async def get_by_id(id: UUID4, db: Session = Depends(get_db)):
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=CompetitionOut)
 async def create(create_competition: CompetitionCreate, db: Session = Depends(get_db)):
     """Handle creating a competition."""
-    new_competition = Competition(**create_competition.dict())
+    new_competition: Competition = Competition(**create_competition.dict())
     db.add(new_competition)
     db.commit()
 
@@ -83,7 +83,7 @@ async def update(
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete(id: UUID4, db: Session = Depends(get_db)):
     """Handle deleting a competition."""
-    competition = db.query(Competition).get(id)
+    competition: Competition = db.query(Competition).get(id)
 
     if not competition:
         raise HTTPException(
@@ -96,6 +96,22 @@ async def delete(id: UUID4, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+@router.get(
+    "/{id}/competitors",
+    status_code=status.HTTP_200_OK,
+    response_model=List[CompetitorOut],
+)
+async def get_competition_competitors(id: UUID4, db: Session = Depends(get_db)):
+    competition: Competition = db.query(Competition).get(id)
+
+    if not competition:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="competition not found"
+        )
+
+    return competition.competitors.all()
+
+
 @router.post(
     "/{id}/csv", status_code=status.HTTP_201_CREATED, response_model=List[CompetitorOut]
 )
@@ -103,7 +119,7 @@ async def add_competitors_by_csv(
     id: UUID4, competitors: UploadFile = File(...), db: Session = Depends(get_db)
 ):
 
-    competition = db.query(Competition).get(id)
+    competition: Competition = db.query(Competition).get(id)
 
     if not ("csv" in competitors.content_type):
         raise HTTPException(
@@ -152,7 +168,7 @@ async def add_competitors_by_csv(
 async def add_competitors_by_xlsx(
     id: UUID4, competitors: UploadFile = File(...), db: Session = Depends(get_db)
 ):
-    competition = db.query(Competition).get(id)
+    competition: Competition = db.query(Competition).get(id)
 
     if not ("excel" in competitors.content_type):
         raise HTTPException(
@@ -174,7 +190,7 @@ async def add_competitors_by_xlsx(
         if db.query(Competitor).filter(Competitor.sail_nr == int(row.sail_nr)).first():
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"competitor with sail number {row.sail_rn} alreay exists",
+                detail=f"competitor with sail number {row.sail_nr} alreay exists",
             )
 
         create_competitor = CompetitorCreate(
@@ -201,7 +217,7 @@ async def add_competitors_by_xlsx(
 async def add_competitors_by_json(
     id: UUID4, competitors: UploadFile = File(...), db: Session = Depends(get_db)
 ):
-    competition = db.query(Competition).get(id)
+    competition: Competition = db.query(Competition).get(id)
 
     if not ("json" in competitors.content_type):
         raise HTTPException(
@@ -223,7 +239,7 @@ async def add_competitors_by_json(
         if db.query(Competitor).filter(Competitor.sail_nr == int(row.sail_nr)).first():
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"competitor with sail number {row.sail_rn} alreay exists",
+                detail=f"competitor with sail number {row.sail_nr} alreay exists",
             )
 
         create_competitor = CompetitorCreate(
