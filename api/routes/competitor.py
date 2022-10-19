@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from api import get_db
 from api.models import Competitor
-from api.schemas import CompetitorCreate, CompetitorOut, CompetitorUpdated
+from api.schemas import CompetitorCreate, CompetitorOut, CompetitorUpdated, PositionOut
 
 router = APIRouter(prefix="/competitors", tags=["Competitors"])
 
@@ -21,7 +21,6 @@ async def read(db: Session = Depends(get_db)):
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=CompetitorOut)
 async def get_by_id(id: UUID4, db: Session = Depends(get_db)):
     """Handle returning one competitor to the user by id."""
-
     competitor: Competitor = db.query(Competitor).get(id)
 
     if not competitor:
@@ -30,6 +29,21 @@ async def get_by_id(id: UUID4, db: Session = Depends(get_db)):
         )
 
     return competitor
+
+
+@router.get(
+    "/{id}/positions", status_code=status.HTTP_200_OK, response_model=List[PositionOut]
+)
+async def get_competitor_positions(id: UUID4, db: Session = Depends(get_db)):
+    """Handle returning all competitor positions to the user."""
+    competitor: Competitor = db.query(Competitor).get(id)
+
+    if not competitor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="competitor not found"
+        )
+
+    return competitor.positions.all()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=CompetitorOut)
@@ -74,6 +88,7 @@ async def update(
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete(id: UUID4, db: Session = Depends(get_db)):
+    """Handle deleting a competitor."""
     competitor: Competitor = db.query(Competitor).get(id)
 
     if not competitor:
