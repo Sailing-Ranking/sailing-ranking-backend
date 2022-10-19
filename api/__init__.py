@@ -32,6 +32,10 @@ def create_app():
 
     app.include_router(race.router)
 
+    from api.routes import position
+
+    app.include_router(position.router)
+
     @app.get("/health-check", status_code=status.HTTP_200_OK)
     def health_check() -> dict[str, bool]:
         return {"healthy": True}
