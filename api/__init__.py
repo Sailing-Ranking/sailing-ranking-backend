@@ -28,6 +28,10 @@ def create_app():
 
     app.include_router(competitor.router)
 
+    from api.routes import race
+
+    app.include_router(race.router)
+
     @app.get("/health-check", status_code=status.HTTP_200_OK)
     def health_check() -> dict[str, bool]:
         return {"healthy": True}

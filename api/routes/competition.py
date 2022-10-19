@@ -21,6 +21,7 @@ from api.schemas import (
     CompetitionUpdate,
     CompetitorCreate,
     CompetitorOut,
+    RaceOut,
 )
 
 router = APIRouter(prefix="/competitions", tags=["Competitions"])
@@ -35,6 +36,7 @@ async def read(db: Session = Depends(get_db)):
 
 @router.get("/boats", status_code=status.HTTP_200_OK, response_model=List[Boat])
 def get_boat_types():
+    """Handle returning all cometition boat types to the user."""
     return list(Boat)
 
 
@@ -102,6 +104,7 @@ async def delete(id: UUID4, db: Session = Depends(get_db)):
     response_model=List[CompetitorOut],
 )
 async def get_competition_competitors(id: UUID4, db: Session = Depends(get_db)):
+    """Handle returning all competition competitors to the user."""
     competition: Competition = db.query(Competition).get(id)
 
     if not competition:
@@ -110,6 +113,19 @@ async def get_competition_competitors(id: UUID4, db: Session = Depends(get_db)):
         )
 
     return competition.competitors.all()
+
+
+@router.get("/{id}/races", status_code=status.HTTP_200_OK, response_model=List[RaceOut])
+async def get_competiton_races(id: UUID4, db: Session = Depends(get_db)):
+    """Handle returning all competition races to the user."""
+    competition: Competition = db.query(Competition).get(id)
+
+    if not competition:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="competition not found"
+        )
+
+    return competition.races.all()
 
 
 @router.post(
