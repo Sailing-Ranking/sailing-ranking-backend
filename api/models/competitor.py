@@ -56,7 +56,7 @@ class Competitor(Base):
     # competitor club
     club = sa.Column(sa.Enum(Club), nullable=False, index=True)
     # the competition id in which the competitor takes part
-    competition_id = sa.Column(UUID, sa.ForeignKey("competition.id"))
+    competition_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey("competition.id"))
     # the competition object in which the competitor takes part
     competition = relationship("Competition", back_populates="competitors")
     # the competitor's position finishes
