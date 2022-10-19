@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 from pydantic import UUID4, BaseModel
 
@@ -6,10 +7,11 @@ from pydantic import UUID4, BaseModel
 class RaceBase(BaseModel):
     """Representing a sailing competition race as schema."""
 
-    race_nr: int
+    race_nr: Optional[int]
+    competition_id: UUID4
 
     class Config:
-        orm_moce = True
+        orm_mode = True
 
 
 class RaceOut(RaceBase):

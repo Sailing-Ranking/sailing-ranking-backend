@@ -11,7 +11,7 @@ class Race(Base):
     # the race number
     race_nr = sa.Column(sa.BigInteger, nullable=False, index=True)
     # the competition id for the race
-    competion_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey("competition.id"))
+    competition_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey("competition.id"))
     # the competition for the race
     competition = relationship("Competition", back_populates="races")
     # the finishing positions in the race
