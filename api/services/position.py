@@ -24,7 +24,7 @@ def update_ranking(create_position: PositionCreate, db: Session):
 
     db.add(new_position)
 
-    subtract_total = 0
+    subtract_total = competitor.total_points - competitor.net_points
     race_count = db.query(Race).count()
     if (race_count > 0) and (race_count % 4 == 0):
         subtract_count = int(race_count / 4)
@@ -32,6 +32,7 @@ def update_ranking(create_position: PositionCreate, db: Session):
         all_competitor_positions: List[Position] = competitor.positions.order_by(
             desc(Position.points)
         ).all()
+        subtract_total = 0
         for i in range(subtract_count):
             subtract_total += all_competitor_positions[i].points
 

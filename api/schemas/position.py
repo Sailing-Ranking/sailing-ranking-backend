@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from pydantic import UUID4, BaseModel
 
@@ -26,7 +27,15 @@ class PositionOut(PositionBase):
 class PositionCreate(PositionBase):
     """Representing a finishing position to be created as schema."""
 
-    pass
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_to_json
+
+    @classmethod
+    def validate_to_json(cls, value):
+        if isinstance(value, str):
+            return cls(**json.loads(value))
+        return value
 
 
 class PositionUpdate(PositionBase):

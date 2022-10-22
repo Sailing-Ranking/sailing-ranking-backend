@@ -18,7 +18,7 @@ services:
 
   postgres:
     image: postgis/postgis:13-3.1-alpine
-    container_name: sailingservice-postgres
+    container_name: sailingranking-postgres
     env_file:
       - .env
     environment:

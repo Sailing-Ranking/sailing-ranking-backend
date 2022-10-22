@@ -11,6 +11,9 @@ pytz = "*"
 psycopg2-binary = "*"
 pandas = "*"
 python-multipart = "*"
+opencv-python = "*"
+tensorflow = "*"
+pillow = "*"
 
 [dev-packages]
 flake8 = "*"

@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from api import config, database, models, routes, schemas
 from api.config import settings
 from api.database import Base, get_db
+import tensorflow as tf
+
+model = tf.keras.models.load_model("api/ai/cnn_model")
 
 app = FastAPI()
 
