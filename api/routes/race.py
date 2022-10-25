@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from api import get_db
 from api.models import Competition, Race
-from api.schemas import RaceCreate, RaceOut, RaceUpdate
+from api.schemas import RaceCreate, RaceOut, RaceUpdate, PositionOut
 
 router = APIRouter(prefix="/races", tags=["Races"])
 
@@ -83,3 +83,16 @@ async def delete(id: UUID4, db: Session = Depends(get_db)):
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/{id}/positions", status_code=status.HTTP_200_OK, response_model=List[PositionOut])
+async def get_by_id(id: UUID4, db: Session = Depends(get_db)):
+    """Handle returning one race by id to the user."""
+    race: Race = db.query(Race).get(id)
+
+    if not race:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="race not found"
+        )
+
+    return race.positions.all()
