@@ -111,7 +111,7 @@ async def recognize(
         )
 
     contents = file.file.read()
-    nparr = np.fromstring(contents, np.uint8)
+    nparr = np.array(bytearray(contents), dtype="uint8")
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     contours, image = get_countours(image=image)
@@ -129,10 +129,10 @@ async def recognize(
     predicted_number = combine_digits_to_full_number(predictions)
     possibilities = [
         str(competitor.sail_nr)
-        for competitor in db.query(Competitor.sail_nr)
-        .filter(Competition.id == "b4761f7d-cdc1-4d25-94bf-1f777837b4ce")
+        for competitor in db.query(Competitor)
+        .filter(Competitor.competition_id == "b4761f7d-cdc1-4d25-94bf-1f777837b4ce")
         .all()
     ]
     closest_numbers = difflib.get_close_matches(predicted_number, possibilities)
 
-    return closest_numbers
+    return {"closest_match": closest_numbers, "prediction": predicted_number}
