@@ -8,12 +8,10 @@ from api.models import Club, Country
 class CompetitorBase(BaseModel):
     """Representing a sailing competitor as schema."""
 
-    first_name: constr(strip_whitespace=True, min_length=5, max_length=128)
-    last_name: constr(strip_whitespace=True, min_length=5, max_length=256)
+    first_name: constr(strip_whitespace=True, min_length=1, max_length=128)
+    last_name: constr(strip_whitespace=True, min_length=1, max_length=256)
     country: Country
     sail_nr: int
-    total_points: int = 0
-    net_points: int = 0
     club: Club
     competition_id: UUID4
 
@@ -26,6 +24,9 @@ class CompetitorOut(CompetitorBase):
     """Representing a sailing competitor that is returned to a user as schema."""
 
     id: UUID4
+
+    total_points: int = 0
+    net_points: int = 0
 
     created_at: datetime.datetime
     updated_at: datetime.datetime
