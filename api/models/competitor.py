@@ -63,5 +63,6 @@ class Competitor(Base):
     positions = relationship(
         "Position",
         back_populates="competitor",
+        cascade="all, delete",
         lazy="dynamic",
     )

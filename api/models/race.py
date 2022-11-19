@@ -18,5 +18,6 @@ class Race(Base):
     positions = relationship(
         "Position",
         back_populates="race",
+        cascade="all, delete",
         lazy="dynamic",
     )

@@ -35,11 +35,13 @@ class Competition(Base):
     races = relationship(
         "Race",
         back_populates="competition",
+        cascade="all, delete",
         lazy="dynamic",
     )
     # the associated competitors of a competition
     competitors = relationship(
         "Competitor",
         back_populates="competition",
+        cascade="all, delete",
         lazy="dynamic",
     )
