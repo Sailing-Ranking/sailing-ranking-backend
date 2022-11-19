@@ -17,7 +17,7 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api import get_db, model
-from api.models import Competition, Competitor, Position, Race
+from api.models import Competitor, Position, Race
 from api.schemas import PositionOut, PositionUpdate
 from api.services import (
     combine_digits_to_full_number,

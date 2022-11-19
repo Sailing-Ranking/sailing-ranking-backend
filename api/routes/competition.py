@@ -30,12 +30,14 @@ router = APIRouter(prefix="/competitions", tags=["Competitions"])
 @router.get("/", status_code=status.HTTP_200_OK, response_model=List[CompetitionOut])
 async def read(db: Session = Depends(get_db)):
     """Handle returning all competitions to the user."""
-    competitions: List[Competition] = db.query(Competition).all()
+    competitions: List[Competition] = (
+        db.query(Competition).order_by(Competition.start_date.desc()).all()
+    )
     return competitions
 
 
 @router.get("/boats", status_code=status.HTTP_200_OK, response_model=List[Boat])
-def get_boat_types():
+async def get_boat_types():
     """Handle returning all cometition boat types to the user."""
     return list(Boat)
 
