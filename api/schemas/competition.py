@@ -8,7 +8,7 @@ from api.models import Boat
 class CompetitionBase(BaseModel):
     """Representing a sailing competition as schema."""
 
-    title: constr(strip_whitespace=True, min_length=5, max_length=128)
+    title: constr(strip_whitespace=True, min_length=1, max_length=128)
     boat: Boat
     start_date: datetime.date
     end_date: datetime.date
