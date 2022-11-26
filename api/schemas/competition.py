@@ -4,7 +4,7 @@ from typing import List
 from pydantic import UUID4, BaseModel, constr
 
 from api.models import Boat
-from api.schemas.competitor import CompetitorOut
+from api.schemas.competitor import Club, Country
 from api.schemas.position import PositionOut
 
 
@@ -42,7 +42,18 @@ class CompetitionUpdate(CompetitionBase):
     pass
 
 
-class Result(CompetitorOut):
+class Result(BaseModel):
     """Representing a sailing competition results as a schema."""
 
+    first_name: str
+    last_name: str
+    country: Country
+    club: Club
+    sail_nr: int
+    total_points: int
+
     positions: List[PositionOut]
+
+    class Config:
+        orm_mode = True
+        use_enum_values = True
