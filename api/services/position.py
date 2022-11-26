@@ -8,7 +8,7 @@ from pydantic import UUID4
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
-from api import model
+from api import logger, model
 from api.models import Competition, Competitor, Position, Race
 
 
@@ -78,9 +78,18 @@ def update_ranking(race_id: UUID4, file: UploadFile, db: Session):
         .filter(Competition.id == race.competition_id)
         .all()
     ]
+
+    logger.info(f"predicted number: {predicted_number}")
+
     # get the clossest match
     if predicted_number not in possibilities:
-        predicted_number = difflib.get_close_matches(predicted_number, possibilities)[0]
+        matches = difflib.get_close_matches(predicted_number, possibilities)
+        if matches:
+            predicted_number = difflib.get_close_matches(
+                predicted_number, possibilities
+            )[0]
+
+    logger.info(f"clossest number: {predicted_number}")
 
     new_position = Position(
         race_id=race_id,

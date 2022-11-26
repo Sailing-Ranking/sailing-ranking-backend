@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 
 from api import get_db
 from api.models import Competition, Race
-from api.schemas import PositionOut, RaceCreate, RaceOut, RaceUpdate
+from api.schemas.position import PositionOut
+from api.schemas.race import RaceCreate, RaceOut, RaceUpdate
 
 router = APIRouter(prefix="/races", tags=["Races"])
 

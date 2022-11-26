@@ -17,8 +17,8 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api import get_db, model
-from api.models import Competitor, Position, Race
-from api.schemas import PositionOut, PositionUpdate
+from api.models import Competition, Competitor, Position, Race
+from api.schemas.position import PositionOut, PositionUpdate
 from api.services import (
     combine_digits_to_full_number,
     get_countours,
@@ -127,10 +127,12 @@ async def recognize(
 
     # pu in function to get full number prediction
     predicted_number = combine_digits_to_full_number(predictions)
+
+    competition: Competition = db.query(Competition).first()
     possibilities = [
         str(competitor.sail_nr)
         for competitor in db.query(Competitor)
-        .filter(Competitor.competition_id == "b4761f7d-cdc1-4d25-94bf-1f777837b4ce")
+        .filter(Competitor.competition_id == competition.id)
         .all()
     ]
     closest_numbers = difflib.get_close_matches(predicted_number, possibilities)
