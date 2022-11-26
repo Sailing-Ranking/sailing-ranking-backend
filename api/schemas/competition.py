@@ -1,8 +1,11 @@
 import datetime
+from typing import List
 
 from pydantic import UUID4, BaseModel, constr
 
 from api.models import Boat
+from api.schemas.competitor import CompetitorOut
+from api.schemas.position import PositionOut
 
 
 class CompetitionBase(BaseModel):
@@ -37,3 +40,9 @@ class CompetitionUpdate(CompetitionBase):
     """Representing a sailing competition to be updated as schema."""
 
     pass
+
+
+class Result(CompetitorOut):
+    """Representing a sailing competition results as a schema."""
+
+    positions: List[PositionOut]

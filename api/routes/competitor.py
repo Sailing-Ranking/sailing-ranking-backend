@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 
 from api import get_db
 from api.models import Competitor
-from api.schemas import CompetitorCreate, CompetitorOut, CompetitorUpdated, PositionOut
+from api.schemas.competitor import CompetitorCreate, CompetitorOut, CompetitorUpdated
+from api.schemas.position import PositionOut
 
 router = APIRouter(prefix="/competitors", tags=["Competitors"])
 

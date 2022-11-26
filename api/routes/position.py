@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 
 from api import get_db, model
 from api.models import Competitor, Position, Race
-from api.schemas import PositionOut, PositionUpdate
+from api.schemas.position import PositionOut, PositionUpdate
 from api.services import (
     combine_digits_to_full_number,
     get_countours,

@@ -2,9 +2,9 @@ import tensorflow as tf
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import config, database, models, routes, schemas
-from api.config import settings
-from api.database import Base, get_db
+from . import config, database, models, routes, schemas
+from .config import settings
+from .database import Base, get_db
 
 model = tf.keras.models.load_model("api/ai/cnn_model")
 
