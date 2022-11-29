@@ -1,6 +1,7 @@
 from enum import Enum
 
 import sqlalchemy as sa
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -46,7 +47,7 @@ class Competitor(Base):
     # competitor country of national team
     country = sa.Column(sa.Enum(Country), nullable=False)
     # competitor sail number
-    sail_nr = sa.Column(sa.BigInteger, nullable=False, unique=True, index=True)
+    sail_nr = sa.Column(sa.BigInteger, nullable=False, index=True)
     # competitor total points in competition
     total_points = sa.Column(
         sa.BigInteger, nullable=False, default=0, server_default="0"
@@ -65,4 +66,10 @@ class Competitor(Base):
         back_populates="competitor",
         cascade="all, delete",
         lazy="dynamic",
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "competition_id", "sail_nr", name="_competition_id_sail_nr_uc"
+        ),
     )

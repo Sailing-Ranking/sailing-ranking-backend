@@ -5,7 +5,8 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from api import get_db
-from api.models import Competitor, competitor
+from api.models import Competitor
+from api.models.competition import Competition
 from api.schemas.competitor import CompetitorCreate, CompetitorOut, CompetitorUpdated
 from api.schemas.position import PositionOut
 
@@ -51,14 +52,17 @@ async def get_competitor_positions(id: UUID4, db: Session = Depends(get_db)):
 async def create(create_competitor: CompetitorCreate, db: Session = Depends(get_db)):
     """Handle creating a competitor."""
 
-    if not db.query(competitor).get(create_competitor.competition_id):
+    if not db.query(Competition).get(create_competitor.competition_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="competition not found"
         )
 
     if (
         db.query(Competitor)
-        .filter(Competitor.competition_id == create_competitor.competition_id , Competitor.sail_nr == create_competitor.sail_nr)
+        .filter(
+            Competitor.competition_id == create_competitor.competition_id,
+            Competitor.sail_nr == create_competitor.sail_nr,
+        )
         .first()
     ):
         raise HTTPException(
