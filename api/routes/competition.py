@@ -15,12 +15,7 @@ from sqlalchemy.orm import Session
 
 from api import get_db
 from api.models import Boat, Club, Competition, Competitor, Country
-from api.schemas.competition import (
-    CompetitionCreate,
-    CompetitionOut,
-    CompetitionUpdate,
-    Result,
-)
+from api.schemas.competition import CompetitionCreate, CompetitionOut, CompetitionUpdate
 from api.schemas.competitor import CompetitorCreate, CompetitorOut
 from api.schemas.race import RaceOut
 
@@ -131,7 +126,7 @@ async def get_competiton_races(id: UUID4, db: Session = Depends(get_db)):
 
 
 @router.get(
-    "/{id}/results", status_code=status.HTTP_200_OK, response_model=List[Result]
+    "/{id}/results", status_code=status.HTTP_200_OK, response_model=List[CompetitorOut]
 )
 async def get_competition_results(id: UUID4, db: Session = Depends(get_db)):
     """Handle returning the results of the competition to the user."""
@@ -143,22 +138,7 @@ async def get_competition_results(id: UUID4, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="competition not found"
         )
 
-    results = []
-    competitor: Competitor
-    for competitor in competition.competitors.order_by(Competitor.total_points).all():
-        results.append(
-            Result(
-                first_name=competitor.first_name,
-                last_name=competitor.last_name,
-                country=competitor.country,
-                club=competitor.club,
-                sail_nr=competitor.sail_nr,
-                total_points=competitor.total_points,
-                positions=competitor.positions.all(),
-            )
-        )
-
-    return results
+    return competition.competitors.order_by(Competitor.total_points).all()
 
 
 @router.post(
